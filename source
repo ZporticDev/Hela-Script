@@ -160,9 +160,9 @@ local Button = ScriptsTab:CreateButton({
 })
 
 local Button = ScriptsTab:CreateButton({
-   Name = "Zyx Aimlock",
+   Name = "AirHub (Aimbot)",
    Callback = function()
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/Axsync/Zyx-Executor/refs/heads/main/scripts/aimlock.lua"))()
+      loadstring(game:HttpGet("loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/AirHub.lua"))()"))()
    end,
 })
 
