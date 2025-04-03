@@ -1,0 +1,199 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Hela Script Hub",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "Hela Script Hub",
+   LoadingSubtitle = "by Hela Hub",
+   Theme = "Serenity", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "Big Hub"
+   },
+
+   Discord = {
+      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+
+   KeySystem = false,
+   KeySettings = {
+      Title = "Untitled",
+      Subtitle = "Key System",
+      Note = "No method of obtaining the key is provided",
+      FileName = "Key",
+      SaveKey = true,
+      GrabKeyFromSite = false,
+      Key = {"Hello"}
+   }
+})
+
+----Tabs-------------------------------------------------------------------------------------------------------------------------------------------------------
+local PlayerTab = Window:CreateTab("Player", 7992557358)
+local ScriptsTab = Window:CreateTab("Scripts", 78388764182737)
+local OthersTab = Window:CreateTab("Others", 87008325932324)
+
+
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+local Slider = PlayerTab:CreateSlider({
+   Name = "Speed Power",
+   Range = {1, 1000},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = humanoid and humanoid.WalkSpeed or 16,
+   Flag = "SpeedSlider",
+   Callback = function(Value)
+       if humanoid then
+           humanoid.WalkSpeed = Value
+       end
+   end,
+})
+
+
+
+
+
+local Button = PlayerTab:CreateButton({
+   Name = "Revert Speed",
+   Callback = function()
+      humanoid.WalkSpeed = 16
+   end,
+})
+
+
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+
+
+
+
+local Slider = PlayerTab:CreateSlider({
+   Name = "Jump Height Slider",
+   Range = {1, 1000},
+   Increment = 1,
+   Suffix = "JumpHeight",
+   CurrentValue = humanoid and humanoid.JumpHeight or defaultJumpHeight,
+   Flag = "JumpHeightSlider",
+   Callback = function(Value)
+       if humanoid then
+           humanoid.JumpHeight = Value
+           humanoid.JumpPower = Value
+       end
+   end,
+})
+
+
+
+
+local Button = PlayerTab:CreateButton({
+   Name = "Reset Jump Height",
+   Callback = function()
+       if humanoid then
+           humanoid.JumpHeight = 50
+           humanoid.JumpPower = 50
+       end
+   end,
+})
+
+
+
+
+
+local Input = OthersTab:CreateInput({
+   Name = "Teleport Input",
+   CurrentValue = "",
+   PlaceholderText = "Enter Username or Display Name",
+   RemoveTextAfterFocusLost = false,
+   Flag = "Input1",
+   Callback = function(Text)
+       for _, player in pairs(game.Players:GetPlayers()) do
+           if player.Name:sub(1, #Text):lower() == Text:lower() or player.DisplayName:sub(1, #Text):lower() == Text:lower() then
+               local targetCharacter = player.Character
+               if targetCharacter and targetCharacter:FindFirstChild("HumanoidRootPart") then
+                   game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(targetCharacter.HumanoidRootPart.CFrame)
+                   break
+               end
+           end
+       end
+   end,
+})
+
+local Button = ScriptsTab:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+      loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
+
+local Button = ScriptsTab:CreateButton({
+   Name = "Dex Explorer",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()
+   end,
+})
+
+local Button = ScriptsTab:CreateButton({
+   Name = "Fates Admin",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/fatesc/fates-admin/main/main.lua"))();
+   end,
+})
+
+local Button = ScriptsTab:CreateButton({
+   Name = "CMD-X",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/CMD-X/CMD-X/master/Source"))()
+   end,
+})
+
+local Button = ScriptsTab:CreateButton({
+   Name = "Zyx Aimlock",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Axsync/Zyx-Executor/refs/heads/main/scripts/aimlock.lua"))()
+   end,
+})
+
+local Slider = OthersTab:CreateSlider({
+   Name = "FOV Slider",
+   Range = {50, 120}, -- Min: 50, Max: 120
+   Increment = 1, -- 5'er 5'er değiştirir
+   Suffix = " FOV",
+   CurrentValue = workspace.CurrentCamera.FieldOfView, -- Başlangıç değeri mevcut FOV
+   Flag = "FOVSlider",
+   Callback = function(Value)
+       workspace.CurrentCamera.FieldOfView = Value -- FOV'yi günceller
+   end,
+})
+
+local Toggle = OthersTab:CreateToggle({
+   Name = "Toggle Mouse Lock",
+   CurrentValue = false,
+   Flag = "MouseLockToggle",
+   Callback = function(Value)
+       local player = game.Players.LocalPlayer
+       local mouse = player:GetMouse()
+
+       if Value then
+           -- Mouse Kilitleme
+           game:GetService("UserInputService").MouseIconEnabled = false -- Mouse pointer'ı gizler
+           player.Character:WaitForChild("HumanoidRootPart").Anchored = true -- Karakteri sabitler
+       else
+           -- Mouse Kilidini Açma
+           game:GetService("UserInputService").MouseIconEnabled = true -- Mouse pointer'ı gösterir
+           player.Character:WaitForChild("HumanoidRootPart").Anchored = false -- Karakterin hareketini açar
+       end
+   end,
+})
