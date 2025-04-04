@@ -1,118 +1,126 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "Hela Script Hub",
-   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-   LoadingTitle = "Hela Script Hub",
-   LoadingSubtitle = "by Hela Hub",
-   Theme = "Serenity", -- Check https://docs.sirius.menu/rayfield/configuration/themes
-
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
-
+   Name = "🔥 Hela Hub | Main 🔥",
+   LoadingTitle = "🔫 Main Script 💥",
+   LoadingSubtitle = "by Hela",
    ConfigurationSaving = {
-      Enabled = true,
+      Enabled = false,
       FolderName = nil, -- Create a custom folder for your hub/game
-      FileName = "Big Hub"
+      FileName = "Example Hub"
    },
-
    Discord = {
-      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
-      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      Enabled = false,
+      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
       RememberJoins = true -- Set this to false to make them join the discord every time they load it up
    },
-
-   KeySystem = false,
+   KeySystem = false, -- Set this to true to use our key system
    KeySettings = {
-      Title = "Untitled",
+      Title = "Key | Youtube Hub",
       Subtitle = "Key System",
-      Note = "No method of obtaining the key is provided",
-      FileName = "Key",
-      SaveKey = true,
-      GrabKeyFromSite = false,
-      Key = {"Hello"}
+      Note = "Key In Discord Server",
+      FileName = "YoutubeHubKey1", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = true, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"https://pastebin.com/raw/AtgzSPWK"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
 })
 
-----Tabs-------------------------------------------------------------------------------------------------------------------------------------------------------
-local PlayerTab = Window:CreateTab("Player", 7992557358)
-local ScriptsTab = Window:CreateTab("Scripts", 78388764182737)
-local OthersTab = Window:CreateTab("Others", 87008325932324)
+local MainTab = Window:CreateTab("🏠 Home", nil) -- Title, Image
+local MainSection = MainTab:CreateSection("Main")
 
+Rayfield:Notify({
+   Title = "You executed the script",
+   Content = "Hela Hub loaded.",
+   Duration = 5,
+   Image = 13047715178,
+   Actions = { -- Notification Buttons
+      Ignore = {
+         Name = "Okay!",
+         Callback = function()
+         print("The user tapped Okay!")
+      end
+   },
+},
+})
 
+local Button = MainTab:CreateButton({
+   Name = "Infinite Jump Toggle",
+   Callback = function()
+       --Toggles the infinite jump between on or off on every script run
+_G.infinjump = not _G.infinjump
 
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:FindFirstChildOfClass("Humanoid")
+if _G.infinJumpStarted == nil then
+	--Ensures this only runs once to save resources
+	_G.infinJumpStarted = true
+	
+	--Notifies readiness
+	game.StarterGui:SetCore("SendNotification", {Title="Youtube Hub"; Text="Infinite Jump Activated!"; Duration=5;})
 
-local Slider = PlayerTab:CreateSlider({
-   Name = "Speed Power",
+	--The actual infinite jump
+	local plr = game:GetService('Players').LocalPlayer
+	local m = plr:GetMouse()
+	m.KeyDown:connect(function(k)
+		if _G.infinjump then
+			if k:byte() == 32 then
+			humanoid = game:GetService'Players'.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
+			humanoid:ChangeState('Jumping')
+			wait()
+			humanoid:ChangeState('Seated')
+			end
+		end
+	end)
+end
+   end,
+})
+
+local Slider = MainTab:CreateSlider({
+   Name = "WalkSpeed Slider",
    Range = {1, 1000},
    Increment = 1,
    Suffix = "Speed",
-   CurrentValue = humanoid and humanoid.WalkSpeed or 16,
-   Flag = "SpeedSlider",
+   CurrentValue = 16,
+   Flag = "sliderws", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
-       if humanoid then
-           humanoid.WalkSpeed = Value
-       end
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
    end,
 })
 
-
-
-
-
-local Button = PlayerTab:CreateButton({
-   Name = "Revert Speed",
-   Callback = function()
-      humanoid.WalkSpeed = 16
+local Input = MainTab:CreateInput({
+   Name = "Walkspeed",
+   PlaceholderText = "1-1000",
+   RemoveTextAfterFocusLost = true,
+   Callback = function(Text)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Text)
    end,
 })
 
-
-
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:FindFirstChildOfClass("Humanoid")
-
-
-
-
-
-local Slider = PlayerTab:CreateSlider({
-   Name = "Jump Height Slider",
+local Slider = MainTab:CreateSlider({
+   Name = "JumpPower Slider",
    Range = {1, 1000},
    Increment = 1,
-   Suffix = "JumpHeight",
-   CurrentValue = humanoid and humanoid.JumpHeight or defaultJumpHeight,
-   Flag = "JumpHeightSlider",
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "sliderjp", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
-       if humanoid then
-           humanoid.JumpHeight = Value
-           humanoid.JumpPower = Value
-       end
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = (Value)
    end,
 })
 
-
-
-
-local Button = PlayerTab:CreateButton({
-   Name = "Reset Jump Height",
-   Callback = function()
-       if humanoid then
-           humanoid.JumpHeight = 50
-           humanoid.JumpPower = 50
-       end
+local Input = MainTab:CreateInput({
+   Name = "Jump Power",
+   PlaceholderText = "1-1000",
+   RemoveTextAfterFocusLost = true,
+   Callback = function(Text)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = (Text)
    end,
 })
 
+local OtherSection = MainTab:CreateSection("Other")
 
+local TPTab = Window:CreateTab("🏝 Teleports", nil) -- Title, Image
 
-
-
-local Input = OthersTab:CreateInput({
+local Input = TPTab:CreateInput({
    Name = "Teleport Input",
    CurrentValue = "",
    PlaceholderText = "Enter Username or Display Name",
@@ -124,17 +132,19 @@ local Input = OthersTab:CreateInput({
                local targetCharacter = player.Character
                if targetCharacter and targetCharacter:FindFirstChild("HumanoidRootPart") then
                    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(targetCharacter.HumanoidRootPart.CFrame)
-                   break
+                   break -- İlk eşleşmeyi bulduğunda teleport eder
                end
            end
        end
    end,
 })
 
+local ScriptsTab = Window:CreateTab("🎲 Scripts", nil) -- Title, Image
+
 local Button = ScriptsTab:CreateButton({
    Name = "Infinite Yield",
    Callback = function()
-      loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
    end,
 })
 
@@ -142,58 +152,5 @@ local Button = ScriptsTab:CreateButton({
    Name = "Dex Explorer",
    Callback = function()
       loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()
-   end,
-})
-
-local Button = ScriptsTab:CreateButton({
-   Name = "Fates Admin",
-   Callback = function()
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/fatesc/fates-admin/main/main.lua"))();
-   end,
-})
-
-local Button = ScriptsTab:CreateButton({
-   Name = "CMD-X",
-   Callback = function()
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/CMD-X/CMD-X/master/Source"))()
-   end,
-})
-
-local Button = ScriptsTab:CreateButton({
-   Name = "AirHub (Aimbot)",
-   Callback = function()
-      loadstring(game:HttpGet("loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/AirHub.lua"))()"))()
-   end,
-})
-
-local Slider = OthersTab:CreateSlider({
-   Name = "FOV Slider",
-   Range = {50, 120}, -- Min: 50, Max: 120
-   Increment = 1, -- 5'er 5'er değiştirir
-   Suffix = " FOV",
-   CurrentValue = workspace.CurrentCamera.FieldOfView, -- Başlangıç değeri mevcut FOV
-   Flag = "FOVSlider",
-   Callback = function(Value)
-       workspace.CurrentCamera.FieldOfView = Value -- FOV'yi günceller
-   end,
-})
-
-local Toggle = OthersTab:CreateToggle({
-   Name = "Toggle Mouse Lock",
-   CurrentValue = false,
-   Flag = "MouseLockToggle",
-   Callback = function(Value)
-       local player = game.Players.LocalPlayer
-       local mouse = player:GetMouse()
-
-       if Value then
-           -- Mouse Kilitleme
-           game:GetService("UserInputService").MouseIconEnabled = false -- Mouse pointer'ı gizler
-           player.Character:WaitForChild("HumanoidRootPart").Anchored = true -- Karakteri sabitler
-       else
-           -- Mouse Kilidini Açma
-           game:GetService("UserInputService").MouseIconEnabled = true -- Mouse pointer'ı gösterir
-           player.Character:WaitForChild("HumanoidRootPart").Anchored = false -- Karakterin hareketini açar
-       end
    end,
 })
