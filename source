@@ -2,7 +2,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
    Name = "🔥 Hela Hub | Main 🔥",
-   LoadingTitle = "🔫 Main Script 💥",
+   LoadingTitle = "🔫 Main Hela Hub 💥",
    LoadingSubtitle = "by Hela",
    ConfigurationSaving = {
       Enabled = false,
@@ -132,7 +132,7 @@ local Input = TPTab:CreateInput({
                local targetCharacter = player.Character
                if targetCharacter and targetCharacter:FindFirstChild("HumanoidRootPart") then
                    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(targetCharacter.HumanoidRootPart.CFrame)
-                   break -- İlk eşleşmeyi bulduğunda teleport eder
+                   break
                end
            end
        end
@@ -152,5 +152,12 @@ local Button = ScriptsTab:CreateButton({
    Name = "Dex Explorer",
    Callback = function()
       loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()
+   end,
+})
+
+local Button = ScriptsTab:CreateButton({
+   Name = "Aimbot GUI",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/HogRider123/Astralis/refs/heads/main/Aim"))()
    end,
 })
