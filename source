@@ -26,7 +26,7 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
-local MainTab = Window:CreateTab("🏠 Home", nil) -- Title, Image
+local MainTab = Window:CreateTab("Home", 7539983773) -- Title, Image
 local MainSection = MainTab:CreateSection("Main")
 
 Rayfield:Notify({
@@ -47,11 +47,9 @@ Rayfield:Notify({
 local Button = MainTab:CreateButton({
    Name = "Infinite Jump Toggle",
    Callback = function()
-       --Toggles the infinite jump between on or off on every script run
 _G.infinjump = not _G.infinjump
 
 if _G.infinJumpStarted == nil then
-	--Ensures this only runs once to save resources
 	_G.infinJumpStarted = true
 	
 	--Notifies readiness
@@ -80,7 +78,7 @@ local Slider = MainTab:CreateSlider({
    Increment = 1,
    Suffix = "Speed",
    CurrentValue = 16,
-   Flag = "sliderws", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Flag = "sliderws",
    Callback = function(Value)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
    end,
@@ -101,7 +99,7 @@ local Slider = MainTab:CreateSlider({
    Increment = 1,
    Suffix = "Speed",
    CurrentValue = 16,
-   Flag = "sliderjp", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Flag = "sliderjp",
    Callback = function(Value)
         game.Players.LocalPlayer.Character.Humanoid.JumpPower = (Value)
    end,
@@ -125,7 +123,28 @@ local Button = MainTab:CreateButton({
    end,
 })
 
-local TPTab = Window:CreateTab("🏝 Teleports", nil) -- Title, Image
+local Toggle = MainTab:CreateToggle({
+   Name = "God Mode",
+   CurrentValue = false,
+   Flag = "GodToggle",
+   Callback = function(Value)
+       local player = game.Players.LocalPlayer
+       local char = player.Character or player.CharacterAdded:Wait()
+       local hum = char:FindFirstChildOfClass("Humanoid")
+       
+       if hum then
+           if Value then
+               hum.MaxHealth = 1e+308
+               hum.Health = hum.MaxHealth
+           else
+               hum.MaxHealth = 100
+               hum.Health = 100
+           end
+       end
+   end
+})
+
+local TPTab = Window:CreateTab("Others", 8357690888) -- Title, Image
 
 local Input = TPTab:CreateInput({
    Name = "Teleport Input",
@@ -146,7 +165,34 @@ local Input = TPTab:CreateInput({
    end,
 })
 
-local ScriptsTab = Window:CreateTab("🎲 Scripts", nil) -- Title, Image
+local Lighting = game:GetService("Lighting")
+local originalSettings = {
+    Brightness = Lighting.Brightness,
+    ClockTime = Lighting.ClockTime,
+    FogEnd = Lighting.FogEnd,
+    Ambient = Lighting.Ambient
+}
+
+local Toggle = TPTab:CreateToggle({
+    Name = "FullBright",
+    CurrentValue = false,
+    Flag = "FullBrightToggle",
+    Callback = function(Value)
+        if Value then
+            Lighting.Brightness = 2
+            Lighting.ClockTime = 14
+            Lighting.FogEnd = 100000
+            Lighting.Ambient = Color3.new(1, 1, 1)
+        else
+            Lighting.Brightness = originalSettings.Brightness
+            Lighting.ClockTime = originalSettings.ClockTime
+            Lighting.FogEnd = originalSettings.FogEnd
+            Lighting.Ambient = originalSettings.Ambient
+        end
+    end
+})
+
+local ScriptsTab = Window:CreateTab("Scripts", 11570802781) -- Title, Image
 
 local Button = ScriptsTab:CreateButton({
    Name = "Infinite Yield",
