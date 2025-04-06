@@ -118,6 +118,13 @@ local Input = MainTab:CreateInput({
 
 local OtherSection = MainTab:CreateSection("Other")
 
+local Button = MainTab:CreateButton({
+   Name = "Kill Player",
+   Callback = function()
+      game.Players.LocalPlayer.Character.Humanoid.Health = 0
+   end,
+})
+
 local TPTab = Window:CreateTab("🏝 Teleports", nil) -- Title, Image
 
 local Input = TPTab:CreateInput({
