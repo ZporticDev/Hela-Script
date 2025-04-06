@@ -4,10 +4,12 @@ local Window = Rayfield:CreateWindow({
    Name = "🔥 Hela Hub | Main 🔥",
    LoadingTitle = "🔫 Main Hela Hub 💥",
    LoadingSubtitle = "by Hela",
+   Theme = "DarkBlue", -- Check https://docs.sirius.menu/rayfield/configuration/themes
    ConfigurationSaving = {
       Enabled = false,
       FolderName = nil, -- Create a custom folder for your hub/game
       FileName = "Example Hub"
+      
    },
    Discord = {
       Enabled = false,
@@ -144,7 +146,7 @@ local Toggle = MainTab:CreateToggle({
    end
 })
 
-local TPTab = Window:CreateTab("Others", 8357690888) -- Title, Image
+local TPTab = Window:CreateTab("Others", 13451653612) -- Title, Image
 
 local Input = TPTab:CreateInput({
    Name = "Teleport Input",
@@ -192,7 +194,7 @@ local Toggle = TPTab:CreateToggle({
     end
 })
 
-local ScriptsTab = Window:CreateTab("Scripts", 11570802781) -- Title, Image
+local ScriptsTab = Window:CreateTab("Scripts", 94638125071676) -- Title, Image
 
 local Button = ScriptsTab:CreateButton({
    Name = "Infinite Yield",
