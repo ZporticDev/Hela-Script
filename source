@@ -1,5 +1,17 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
+local parent = gethui()
+local RunService = game:GetService("RunService")
+
+RunService.Heartbeat:Connect(function()
+    if parent:FindFirstChild("Rayfield") then
+        parent.Rayfield.Loading.Banner.ImageTransparency = 1
+        return
+    end
+end)
+
+-- easy right :pensive:
+
 local Window = Rayfield:CreateWindow({
    Name = "🔥 Hela Hub | Main 🔥",
    LoadingTitle = "🔫 Main Hela Hub 💥",
